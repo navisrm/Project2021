@@ -18,7 +18,7 @@ client = Client(api_key, secret_key,{"timeout": 0.5})
 
 # Get the ticker price
 def get_ticker_price(symbol):
-    return float(list(filter(lambda x: (x['symbol']=="ETHUSDT"),client.get_all_tickers()))[0]['price'])
+    return float(list(filter(lambda x: (x['symbol']==symbol),client.get_all_tickers()))[0]['price'])
 
 
 # Print function
@@ -30,12 +30,12 @@ def prints(current_ticker_price, lock_price, exit_profit_pr, exit_loss_pr, pnl, 
 
 # lock_in_price
 def lock_in_price(price):
-    return float(price*1.01)
+    return float(price*1.003)
 
 
 # exit_profit_price
 def exit_profit_price(price):
-    return float(price*1.005)
+    return float(price*1.002)
 
 
 # exit_loss_price

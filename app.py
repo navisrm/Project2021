@@ -5,7 +5,7 @@ import requests
 """
 variables
 """
-ticker = "ETHUSDT"
+ticker = "BTCUSDT"
 pnl = 0
 
 
@@ -75,7 +75,7 @@ while True:
                 print("Sell Order placed")
                 profit_loss = curr_ticker_price2 - locked_price
                 pnl += profit_loss
-                func.prints(curr_ticker_price1, locked_price, exit_pf_price,
+                func.prints(curr_ticker_price2, locked_price, exit_pf_price,
                             exit_ls_price, pnl, "Sell")
                 break
             time.sleep(5)
