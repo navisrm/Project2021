@@ -9,30 +9,11 @@ ticker = "BTCUSDT"
 pnl = 0
 
 
-while True:
-    try:
-        start_price = func.get_ticker_price(ticker)
-    except requests.exceptions.ConnectTimeout:
-        print("Connection TimeOut exception from Binance API")
-        continue
-    except requests.exceptions.ReadTimeout:
-        print("Read TimeOut exception from Binance API")
-        continue
-    break
-
+start_price = func.get_current_price(ticker)
 
 while True:
 
-    while True:
-        try:
-            curr_ticker_price1 = func.get_ticker_price(ticker)
-        except requests.exceptions.ConnectTimeout:
-            print(str(curr_ticker_price1) + " -Connection TimeOut exception from Binance API")
-            continue
-        except requests.exceptions.ReadTimeout:
-            print(str(curr_ticker_price1) + " -Read TimeOut exception from Binance API")
-            continue
-        break
+    curr_ticker_price1 = func.get_current_price(ticker)
 
     if curr_ticker_price1 < start_price:
         start_price = curr_ticker_price1
@@ -48,25 +29,16 @@ while True:
 
         # Since the locked price is set, evaluate the exit_profit_price and exit_loss_price to avoid
         # calling functions multiple times
-        exit_pf_price = func.exit_profit_price(locked_price)
-        exit_ls_price = func.exit_loss_price(locked_price)
+        exit_pf_price = func.exit_profit_price(curr_ticker_price1)
+        exit_ls_price = func.exit_loss_price(curr_ticker_price1)
 
-        print("ticker price is more than 1% of start price. Buy Order placed")
+        print("Buy Order placed")
         func.prints(curr_ticker_price1, locked_price, exit_pf_price,
                     exit_ls_price, pnl, "Buy")
 
         while True:
 
-            while True:
-                try:
-                    curr_ticker_price2 = func.get_ticker_price(ticker)
-                except requests.exceptions.ConnectTimeout:
-                    print(str(curr_ticker_price1) + " -Connection TimeOut exception from Binance API")
-                    continue
-                except requests.exceptions.ReadTimeout:
-                    print(str(curr_ticker_price1) + " -Read TimeOut exception from Binance API")
-                    continue
-                break
+            curr_ticker_price2 = func.get_current_price(ticker)
 
             func.prints(curr_ticker_price2, locked_price, exit_pf_price,
                         exit_ls_price, pnl, "Sell-Check")
@@ -74,22 +46,17 @@ while True:
             if curr_ticker_price2 > exit_pf_price or curr_ticker_price2 < exit_ls_price:
                 print("Sell Order placed")
                 profit_loss = curr_ticker_price2 - locked_price
+                if profit_loss >= 0:
+                    print("Transaction is Profit: " + str(profit_loss))
+                else:
+                    print("Transaction is loss: " + str(profit_loss))
                 pnl += profit_loss
                 func.prints(curr_ticker_price2, locked_price, exit_pf_price,
                             exit_ls_price, pnl, "Sell")
                 break
             time.sleep(5)
 
-            while True:
-                try:
-                    start_price = func.get_ticker_price(ticker)
-                except requests.exceptions.ConnectTimeout:
-                    print(str(curr_ticker_price1) + " -Connection TimeOut exception from Binance API")
-                    continue
-                except requests.exceptions.ReadTimeout:
-                    print(str(curr_ticker_price1) + " -Read TimeOut exception from Binance API")
-                    continue
-                break
+            start_price = func.get_current_price(ticker)
 
     time.sleep(5)
 

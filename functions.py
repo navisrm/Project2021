@@ -1,5 +1,6 @@
 from binance.client import Client
 import json
+import requests
 
 """
 The functions required are listed here.
@@ -30,7 +31,7 @@ def prints(current_ticker_price, lock_price, exit_profit_pr, exit_loss_pr, pnl, 
 
 # lock_in_price
 def lock_in_price(price):
-    return float(price*1.003)
+    return float(price*1.002)
 
 
 # exit_profit_price
@@ -41,4 +42,18 @@ def exit_profit_price(price):
 # exit_loss_price
 def exit_loss_price(price):
     return float(price*0.99)
+
+
+# Get the current price of ticker
+def get_current_price(ticker):
+    while True:
+        try:
+            return get_ticker_price(ticker)
+        except requests.exceptions.ConnectTimeout:
+            print("Connection TimeOut exception from Binance API")
+            continue
+        except requests.exceptions.ReadTimeout:
+            print("Read TimeOut exception from Binance API")
+            continue
+        break
 
