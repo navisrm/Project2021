@@ -1,6 +1,7 @@
 from binance.client import Client
 import json
 import requests
+import main_application as mn
 
 """
 The functions required are listed here.
@@ -14,7 +15,7 @@ with open('C:/Users/nchennam/Desktop/Naveen/IntelliJ_Projects/TimesSquare/TimesS
     secret_key= data["secret_key"]
 
 # client = Client(api_key, secret_key)
-client = Client(api_key, secret_key,{"timeout": 0.5})
+client = Client(api_key, secret_key)
 
 
 # Get the ticker price
@@ -31,17 +32,27 @@ def prints(current_ticker_price, lock_price, exit_profit_pr, exit_loss_pr, pnl, 
 
 # lock_in_price
 def lock_in_price(price):
-    return float(price*1.002)
+    return float(price*profit_num_percent_conversion(mn.lock_price))
 
 
 # exit_profit_price
 def exit_profit_price(price):
-    return float(price*1.002)
+    return float(price*profit_num_percent_conversion(mn.exit_profit))
 
 
 # exit_loss_price
 def exit_loss_price(price):
-    return float(price*0.99)
+    return float(price*loss_num_percent_conversion(mn.exit_loss))
+
+
+# convert num to percentage for using in profits
+def profit_num_percent_conversion(x):
+    return (100+float(x))/100
+
+
+# convert num to percentage for using in losses
+def loss_num_percent_conversion(x):
+    return (100-float(x))/100
 
 
 # Get the current price of ticker
