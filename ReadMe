@@ -17,3 +17,8 @@
         libssl-1_1-x64.*
         from D:\Anaconda3\Library\bin to D:\Anaconda3\DLLs.
         -----------------------------
+
+- Log Function:
+     # Logging block - Try to find an optimized way for this code.
+        # import logging
+        # https://stackoverflow.com/questions/15474095/writing-a-log-file-from-python-program

@@ -3,6 +3,7 @@ from twilio.rest import Client as Client_Twilio
 import json
 import requests
 import main_application as mn
+import logging
 
 """
 The functions required are listed here.
@@ -19,6 +20,20 @@ with open('credentials.json') \
 
 # client = Client(api_key, secret_key)
 client = Client(api_key, secret_key)
+
+
+
+"""
+This block contains the logging initializer.
+Import logging package and use the logger object for logging
+"""
+def intantiate_log(filename):
+    LOG = filename
+    logging.basicConfig(filename=LOG, filemode="w", level=logging.INFO)
+    # console handler
+    console = logging.StreamHandler()
+    console.setLevel(logging.ERROR)
+    logging.getLogger("").addHandler(console)
 
 
 def send_message(text):

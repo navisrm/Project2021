@@ -6,9 +6,6 @@ import sys
 
 
 def main():
-    # Logging block - Try to find an optimized way for this code.
-    # import logging
-    # https://stackoverflow.com/questions/15474095/writing-a-log-file-from-python-program
 
     """
     variables
@@ -20,6 +17,9 @@ def main():
     pnl = 0
     counter = 0
     start_price = func.get_current_price(ticker)
+
+    """Instantiating log"""
+    func.intantiate_log(ticker)
 
     while True:
 
