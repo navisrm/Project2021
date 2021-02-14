@@ -1,4 +1,5 @@
 from binance.client import Client
+from twilio.rest import Client as Client_Twilio
 import json
 import requests
 import main_application as mn
@@ -8,14 +9,24 @@ The functions required are listed here.
 """
 
 # Access Tokens - The required tokens are imported in the below block
-with open('C:/Users/nchennam/Desktop/Naveen/IntelliJ_Projects/TimesSquare/TimesSquare/resources/credentials.json') \
+with open('credentials.json') \
         as data_file:
     data = json.load(data_file)
     api_key = data["api_key"]
-    secret_key= data["secret_key"]
+    secret_key = data["secret_key"]
+    twilio_account_sid = data["twilio_account_sid"]
+    twilio_auth_token = data["twilio_auth_token"]
 
 # client = Client(api_key, secret_key)
 client = Client(api_key, secret_key)
+
+
+def send_message(text):
+    twilio_client = Client_Twilio(twilio_account_sid,twilio_auth_token)
+    message = twilio_client.messages.create(
+        to="+12017439933",
+        from_="+16672443754",
+        body=text)
 
 
 # Get the ticker price
@@ -67,4 +78,5 @@ def get_current_price(ticker):
             print("Read TimeOut exception from Binance API")
             continue
         break
+
 

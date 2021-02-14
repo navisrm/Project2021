@@ -1,0 +1,19 @@
+
+
+- Packages to be installed
+        - python-binance
+        - twilio
+
+- For SSL Error:
+        Link: https://github.com/conda/conda/issues/8273
+        ---------------------------
+        The DLLs delivered by Anaconda3 are located here:
+        D:\Anaconda3\Library\bin
+
+        My workaround:
+        I have copied the following files
+
+        libcrypto-1_1-x64.*
+        libssl-1_1-x64.*
+        from D:\Anaconda3\Library\bin to D:\Anaconda3\DLLs.
+        -----------------------------
