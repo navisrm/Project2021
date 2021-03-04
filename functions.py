@@ -29,7 +29,7 @@ Import logging package and use the logger object for logging
 """
 def intantiate_log(filename):
     LOG = filename
-    logging.basicConfig(filename=LOG, filemode="w", level=logging.INFO)
+    logging.basicConfig(filename=LOG, filemode="w", level=logging.DEBUG)
     # console handler
     console = logging.StreamHandler()
     console.setLevel(logging.ERROR)
@@ -48,13 +48,13 @@ def send_message(text):
 def get_ticker_price(symbol):
     return float(list(filter(lambda x: (x['symbol']==symbol),client.get_all_tickers()))[0]['price'])
 
-
+"""
 # Print function
 def prints(current_ticker_price, lock_price, exit_profit_pr, exit_loss_pr, pnl, order_type):
     print("curr_price:" + str(current_ticker_price) + "; " + "lock_in_price:"+ str(lock_price) + "; "
           + "exit_profit_price:" + str(exit_profit_pr) + "; " + "exit_loss_price:" + str(exit_loss_pr) + "; "
           + "pnl:" + str(pnl) + "; " + "Order_type:" + str(order_type))
-
+"""
 
 # lock_in_price
 def lock_in_price(price):
@@ -87,11 +87,16 @@ def get_current_price(ticker):
         try:
             return get_ticker_price(ticker)
         except requests.exceptions.ConnectTimeout:
-            print("Connection TimeOut exception from Binance API")
+            logging.ERROR("Connection TimeOut exception from Binance API")
+            continue
+        except requests.exceptions.ConnectionError:
+            logging.ERROR("Connection TimeOut exception from Binance API")
             continue
         except requests.exceptions.ReadTimeout:
-            print("Read TimeOut exception from Binance API")
+            logging.ERROR("Read TimeOut exception from Binance API")
             continue
-        break
 
 
+def counter_check(num):
+    if num == 3:
+        return 0
